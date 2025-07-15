@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Submission Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #28a745;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    .data {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f4f4f4;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      max-width: 600px;
+    }
+
+    .data p {
+      margin: 10px 0;
+    }
+
+    a, button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 14px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    button:hover, a:hover {
+      background-color: #0056b3;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎉 Thank You! Here is Your Submitted Information:</h1>
+
+  <div class="data" id="formData">
+    <!-- Data will be inserted here -->
+  </div>
+
+  <button onclick="window.print()"> Print / Save as PDF</button>
+  <a href="index.html">⬅ Back to Home</a>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    const name = params.get("name") || "Not provided";
+    const email = params.get("email") || "Not provided";
+    const branch = params.get("class") || "Not selected";
+    const subjects = params.getAll("subject");
+    const state = params.get("state") || "Not selected";
+    const city = params.get("city") || "Not selected";
+    const feedback = params.get("feedback") || "No feedback submitted";
+    const rating = params.get("rating") || "Not rated";
+
+    const subjectList = subjects.length > 0 ? subjects.join(", ") : "Not selected";
+
+    const output = `
+      <p><strong>Name:</strong> ${name}</p>
+      ${email !== "Not provided" ? `<p><strong>Email:</strong> ${email}</p>` : ""}
+      ${branch !== "Not selected" ? `<p><strong>Branch:</strong> ${branch}</p>` : ""}
+      ${subjects.length > 0 ? `<p><strong>Subjects:</strong> ${subjectList}</p>` : ""}
+      ${state !== "Not selected" ? `<p><strong>State:</strong> ${state}</p>` : ""}
+      ${city !== "Not selected" ? `<p><strong>City:</strong> ${city}</p>` : ""}
+      ${params.has("feedback") ? `<p><strong>Feedback:</strong> ${feedback}</p>` : ""}
+      ${params.has("rating") ? `<p><strong>Rating:</strong> ${rating} Star(s)</p>` : ""}
+    `;
+
+    document.getElementById("formData").innerHTML = output;
+  </script>
+
+</body>
+</html>
